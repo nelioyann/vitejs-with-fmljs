@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { createForm } from '@formily/core'
+import { FormProvider, FormConsumer, Field } from '@formily/react'
+import {
+  FormItem,
+  FormLayout,
+  Input,
+  FormButtonGroup,
+  Submit,
+} from '@formily/antd'
 
-function App() {
-  const [count, setCount] = useState(0)
+const form = createForm()
 
+export default () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <FormProvider form={form}>
+      <FormLayout layout="vertical">
+        <Field
+          name="input"
+          title="Username"
+          required
+          initialValue="John Doe"
+          decorator={[FormItem]}
+          component={[Input]}
+        />
+      </FormLayout>
+      <FormConsumer>
+        {() => (
+          <output>
+            Value: Hello {form.values.input}
+          </output>
+        )}
+      </FormConsumer>
+      <FormButtonGroup>
+        <Submit onSubmit={console.log}>Log value in console</Submit>
+      </FormButtonGroup>
+    </FormProvider>
   )
 }
-
-export default App
